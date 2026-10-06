@@ -66,11 +66,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Verify all checks passed
+        # NOTE: `needs.<job>.result` requires a literal job ID — a shell loop
+        # variable cannot be interpolated inside `${{ }}` (that fails workflow
+        # parsing and the whole run dies before any job starts). Keep these
+        # explicit and in sync with the `needs:` list above.
         run: |
-          for job in fmt clippy test docs deny typos; do
-            result="${{ needs.$job.result }}"
-            if [ "$result" != "success" ]; then
-              echo "::error::$job did not succeed (result: $result)"
-              exit 1
-            fi
-          done
+          fail=0
+          test "${{ needs.fmt.result }}" = "success" || { echo "::error::fmt did not succeed (result: ${{ needs.fmt.result }})"; fail=1; }
+          test "${{ needs.clippy.result }}" = "success" || { echo "::error::clippy did not succeed (result: ${{ needs.clippy.result }})"; fail=1; }
+          test "${{ needs.test.result }}" = "success" || { echo "::error::test did not succeed (result: ${{ needs.test.result }})"; fail=1; }
+          test "${{ needs.docs.result }}" = "success" || { echo "::error::docs did not succeed (result: ${{ needs.docs.result }})"; fail=1; }
+          test "${{ needs.deny.result }}" = "success" || { echo "::error::deny did not succeed (result: ${{ needs.deny.result }})"; fail=1; }
+          test "${{ needs.typos.result }}" = "success" || { echo "::error::typos did not succeed (result: ${{ needs.typos.result }})"; fail=1; }
+          exit $fail

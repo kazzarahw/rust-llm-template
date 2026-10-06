@@ -16,10 +16,14 @@ Template scaffolded and (to verify) hardened. No application logic yet.
 ## Done
 
 - [x] Scaffold template from `iji` structure.
+- [x] Publish as public GitHub template repo; applied `main` ruleset.
+- [x] Fixed `ci-success` job: shell variable inside `${{ }}` killed the first
+  CI run before any job started. Checks now explicit per job.
 
 ## Next
 
-1. Rename crates and set OWNER/REPO (see `README.md` checklist).
+1. Merge `fix/ci-success-job` (blocked on ruleset approval — see Open decisions).
+2. Rename crates and set OWNER/REPO (see `README.md` checklist).
 2. Rewrite `overview.md` for the real project.
 3. Ingest the first real source into `raw/`.
 4. Define core types/traits as stubs (`#[expect(clippy::todo)]`), `cargo check`.
