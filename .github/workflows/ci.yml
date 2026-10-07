@@ -113,8 +113,10 @@ jobs:
           fi
           tmpfile="$(mktemp)"
           # NOTE: $range splits into rev-list arguments intentionally.
+          # --no-merges skips GitHub's ephemeral PR merge commit (and any
+          # "Update branch" merges); linear history keeps real merges out.
           # shellcheck disable=SC2086
-          git log --format=%s $range > "$tmpfile"
+          git log --no-merges --format=%s $range > "$tmpfile"
           if [ ! -s "$tmpfile" ]; then
             echo "No commits in range; passing."
             rm -f "$tmpfile"
