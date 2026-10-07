@@ -32,3 +32,15 @@ Tip: `grep "^## \[" wiki/log.md | tail -5` shows the last 5 events.
 - Relaxed to `required_approving_review_count: 0`, code-owner/last-push
   approval off. Still enforced: PRs, linear history, `ci-success`, no force
   pushes, no deletion. `.github/rulesets/main.json` updated to match.
+
+## [2026-10-07] progress | Template housekeeping pass
+
+- Removed predecessor-repo references from `README.md`, `wiki/progress.md`,
+  `wiki/log.md` (one-time history rewrite with owner approval; the referent no
+  longer exists). `wiki/index.md` untouched: no pages added or removed.
+- Hid toolchain configs as dotfiles: `.clippy.toml`, `.rustfmt.toml`,
+  `.lefthook.yml`, `.cargo/deny.toml`; folded typos into
+  `Cargo.toml [workspace.metadata.typos]`; dropped redundant clippy `msrv`
+  line (read from `rust-version`).
+- Unified setup markers to `TODO(template)`; trimmed `.gitignore` JetBrains
+  noise; added `raw/assets/.gitkeep`.

@@ -1,6 +1,6 @@
 # Verification-critical files. Changes here require review from the code owner.
 #
-# TODO(template-derived): replace `@kazzarahw` with your GitHub username or team
+# TODO(template): replace `@kazzarahw` with your GitHub username or team
 # when creating a repo from this template.
 #
 # Source-level `#[allow]` is already blocked by `clippy::allow_attributes`, so no
