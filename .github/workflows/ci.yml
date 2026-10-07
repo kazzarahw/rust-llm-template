@@ -60,9 +60,82 @@ jobs:
       - uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a # v6.0.0
       - uses: crate-ci/typos@0b7b3bb1e5f18f9e5c589a3332a876eb5b4a749d # master
 
+  docs-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a # v6.0.0
+        with:
+          # Full history so the PR base commit is available for the diff.
+          fetch-depth: 0
+      - name: Require docs updates for behavior changes
+        env:
+          IS_PR: ${{ github.event_name == 'pull_request' }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+          BASE: ${{ github.event.pull_request.base.sha }}
+        run: |
+          # Pushes to main already passed this gate as a PR (PRs are required),
+          # and have no PR body to inspect for the exemption checkbox.
+          if [ "$IS_PR" != "true" ]; then
+            echo "Push event: gate enforced on the PR side; passing."
+            exit 0
+          fi
+          if [ -n "$(git diff --name-only "$BASE"...HEAD -- 'docs/**' 'README.md' 'CHANGELOG.md' 'AGENTS.md')" ]; then
+            echo "Docs updated; passing."
+            exit 0
+          fi
+          if [ -z "$(git diff --name-only "$BASE"...HEAD -- 'crates/**')" ]; then
+            echo "No behavior changes under crates/; passing."
+            exit 0
+          fi
+          if printf '%s' "$PR_BODY" | grep -qiE '\[x\][^]]*no wiki change needed'; then
+            echo "Exemption checkbox ticked; passing."
+            exit 0
+          fi
+          echo "::error::Behavior changed under crates/ with no docs update. Update docs/**, README.md, CHANGELOG.md, or AGENTS.md — or tick 'No wiki change needed' for pure refactors."
+          exit 1
+
+  commits:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a # v6.0.0
+        with:
+          fetch-depth: 0
+      - name: Lint commit subjects (Conventional Commits)
+        env:
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          pattern='^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\(.+\))?!?: .+'
+          if [ -n "$BASE" ] && [ "$BASE" != "0000000000000000000000000000000000000000" ] && git cat-file -e "$BASE" 2>/dev/null; then
+            range="$BASE..HEAD"
+          else
+            # No usable base (e.g. fresh repo): check only the tip commit.
+            range="HEAD -1"
+          fi
+          tmpfile="$(mktemp)"
+          # NOTE: $range splits into rev-list arguments intentionally.
+          # shellcheck disable=SC2086
+          git log --format=%s $range > "$tmpfile"
+          if [ ! -s "$tmpfile" ]; then
+            echo "No commits in range; passing."
+            rm -f "$tmpfile"
+            exit 0
+          fi
+          fail=0
+          while IFS= read -r subject || [ -n "$subject" ]; do
+            [ -z "$subject" ] && continue
+            if printf '%s' "$subject" | grep -qE "$pattern"; then
+              echo "ok: $subject"
+            else
+              echo "::error::Non-conventional subject: $subject"
+              fail=1
+            fi
+          done < "$tmpfile"
+          rm -f "$tmpfile"
+          exit $fail
+
   ci-success:
     if: always()
-    needs: [fmt, clippy, test, docs, deny, typos]
+    needs: [fmt, clippy, test, docs, deny, typos, docs-gate, commits]
     runs-on: ubuntu-latest
     steps:
       - name: Verify all checks passed
@@ -78,4 +151,6 @@ jobs:
           test "${{ needs.docs.result }}" = "success" || { echo "::error::docs did not succeed (result: ${{ needs.docs.result }})"; fail=1; }
           test "${{ needs.deny.result }}" = "success" || { echo "::error::deny did not succeed (result: ${{ needs.deny.result }})"; fail=1; }
           test "${{ needs.typos.result }}" = "success" || { echo "::error::typos did not succeed (result: ${{ needs.typos.result }})"; fail=1; }
+          test "${{ needs.docs-gate.result }}" = "success" || { echo "::error::docs-gate did not succeed (result: ${{ needs.docs-gate.result }})"; fail=1; }
+          test "${{ needs.commits.result }}" = "success" || { echo "::error::commits did not succeed (result: ${{ needs.commits.result }})"; fail=1; }
           exit $fail
