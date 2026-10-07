@@ -22,6 +22,8 @@ Template scaffolded and (to verify) hardened. No application logic yet.
 - [x] Template housekeeping: removed predecessor references, hid toolchain
   configs as dotfiles, embedded typos config, unified `TODO(template)` tags.
 - [x] Consolidated knowledge system under `docs/` (`docs/raw/` + `docs/wiki/`).
+- [x] Enforcement pass: CI `docs-gate` + `commits` jobs, lefthook
+  `commit-msg` hook, `CHANGELOG.md` with release-time versioning.
 
 ## Next
 

@@ -81,6 +81,16 @@ cp article.md docs/raw/2026-10-06-article-slug.md
 Log format: `## [YYYY-MM-DD] <op> | <title>` where `<op>` is
 `ingest`, `query`, `lint`, `decision`, or `progress`.
 
+## Release checklist
+
+Version bumps happen at release time, not per PR.
+
+- [ ] Move `CHANGELOG.md` `Unreleased` entries under a `## [X.Y.Z] -
+  YYYY-MM-DD` heading.
+- [ ] Bump `[workspace.package] version` in root `Cargo.toml` (and
+  `Cargo.lock` via `cargo check`).
+- [ ] Merge to `main`, then `git tag vX.Y.Z` on `main`.
+
 ## License
 
 MIT. See [LICENSE](LICENSE).
