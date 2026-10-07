@@ -19,6 +19,8 @@ Template scaffolded and (to verify) hardened. No application logic yet.
 - [x] Publish as public GitHub template repo; applied `main` ruleset.
 - [x] Fixed `ci-success` job: shell variable inside `${{ }}` killed the first
   CI run before any job started. Checks now explicit per job.
+- [x] Template housekeeping: removed predecessor references, hid toolchain
+  configs as dotfiles, embedded typos config, unified `TODO(template)` tags.
 
 ## Next
 
