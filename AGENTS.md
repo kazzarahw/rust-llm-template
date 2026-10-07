@@ -199,6 +199,9 @@ Report findings; fix with user guidance; log the pass.
   job): `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`,
   `ci`, `chore`, `revert`.
 - Write descriptions in the imperative mood ("add tool dispatch", not "added").
+- Keep commits small and single-concern; prefer a stack of small PRs over one
+  mega-PR. Linear history is enforced by the ruleset, so each commit must
+  stand alone: buildable, conventional subject, docs updated alongside.
 - Do **not** add `Co-Authored-By` or other attribution trailers.
 - **Never push.** The user pushes. Do not run `git push` under any circumstances.
 - Stage explicit paths. Avoid `git add -A` / `git add .` so unrelated work in
@@ -225,6 +228,8 @@ typos
 
 Never report success while any of them fail.
 
+- A failing check means the change is wrong, not the check. Red CI is a
+  verdict on the update, never a prompt to relax the gate.
 - Fix root causes. Never relax a lint, weaken or delete a test, or edit a
   CODEOWNERS-protected file to get to green. If a check looks wrong, stop and
   ask.

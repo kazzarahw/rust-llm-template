@@ -12,6 +12,9 @@ lives in `research/`; living state lives in `progress.md`.
 | Strict `[workspace.lints]`, opt-in per crate | adopted | Compiler as verification; see root `Cargo.toml` |
 | Suppressions via `#[expect(..., reason)]` only | adopted | Stale suppressions become compile errors |
 | llm-wiki (`docs/raw/` + `docs/wiki/`) under `docs/` | adopted | One root entry per system; `docs/raw/` immutable sources, `docs/wiki/` generated knowledge (supersedes root-level `raw/` + `wiki/` layout) |
+| CI `docs-gate`: behavior PRs need docs or exemption | adopted | Honor-system checkboxes do not survive agents; gate keys off the PR template's exemption box |
+| Conventional-commit subjects (lefthook hook + CI job) | adopted | Local hook for speed, CI job for `--no-verify`/web edits; same regex both places |
+| `CHANGELOG.md`, version bumped at release time | adopted | Per-PR bumps are noise; docs-gate covers changelog updates on behavior changes |
 
 ## Open questions
 

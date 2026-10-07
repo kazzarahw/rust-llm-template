@@ -53,3 +53,14 @@ Tip: `grep "^## \[" docs/wiki/log.md | tail -5` shows the last 5 events.
 - Updated references in `AGENTS.md`, `README.md`, `.github/CODEOWNERS`,
   `.github/PULL_REQUEST_TEMPLATE.md`, `docs/` READMEs; superseded the
   root-level layout row in `docs/wiki/architecture.md`.
+
+## [2026-10-07] progress | Enforcement pass: docs-gate, commit lint, changelog
+
+- CI `docs-gate`: PRs touching `crates/` must change `docs/`, `README.md`,
+  `CHANGELOG.md`, or `AGENTS.md`, or tick the PR template exemption.
+  Pushes to main pass trivially (gated on the PR side).
+- CI `commits` + lefthook `commit-msg` enforce Conventional Commits subjects
+  (same regex both places); `ci-success` covers both new jobs.
+- Added `CHANGELOG.md` (release-time versioning) and a README release
+  checklist; documented red-CI and small-commit principles in `AGENTS.md`.
+- `docs/wiki/index.md` untouched: no pages added or removed.
