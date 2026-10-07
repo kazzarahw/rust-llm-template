@@ -39,7 +39,7 @@ testable without a filesystem or network. If custom tooling logic is ever needed
 add a small `xtask` crate rather than a shell script.
 
 TODO(template): rename `app-core` / `app-cli` / `app` to your project names.
-When you do, update `deny.toml` `skip-tree`, `README.md`, and this file.
+When you do, update `.cargo/deny.toml` `skip-tree`, `README.md`, and this file.
 
 ## Commands
 

@@ -19,6 +19,19 @@ serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 proptest = "1"
 
+[workspace.metadata.typos.default.extend-words]
+# Real crate and API names that the spell checker misreads as typos.
+ratatui = "ratatui"
+schemars = "schemars"
+nextest = "nextest"
+clap = "clap"
+reqwest = "reqwest"
+tokio = "tokio"
+serde = "serde"
+
+[workspace.metadata.typos.files]
+extend-exclude = ["target/", "Cargo.lock", ".github/rulesets/"]
+
 [workspace.lints.rust]
 unsafe_code = "forbid"
 unused_must_use = "deny"

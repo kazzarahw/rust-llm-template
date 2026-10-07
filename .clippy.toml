@@ -1,5 +1,5 @@
-msrv = "1.93"
-
+# MSRV is declared once in root Cargo.toml (`rust-version`); clippy reads it
+# from there, so it is not repeated here.
 # Test and bench code may use the ergonomics banned in production code. The
 # workspace lint table sets these to "deny"; these flags scope the relaxation to
 # `#[cfg(test)]` and `#[cfg(bench)]` only.

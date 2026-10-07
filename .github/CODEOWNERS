@@ -8,11 +8,11 @@
 
 # @kazzarahw
 /Cargo.toml
-/clippy.toml
-/rustfmt.toml
+/.clippy.toml
+/.rustfmt.toml
 /rust-toolchain.toml
-/deny.toml
-/lefthook.yml
+/.cargo/deny.toml
+/.lefthook.yml
 /.cargo/
 /.github/
 /AGENTS.md
