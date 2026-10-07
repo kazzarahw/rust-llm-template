@@ -4,9 +4,9 @@
 
 ## Wiki updates (required if behavior, decisions, or state changed)
 
-- [ ] `wiki/` updated: new/changed pages listed in `wiki/index.md`
-- [ ] `wiki/log.md` appended with `## [YYYY-MM-DD] <op> | <title>` entry
-- [ ] New source material (if any) added under `raw/` as `YYYY-MM-DD-slug.md`, unmodified thereafter
+- [ ] `docs/wiki/` updated: new/changed pages listed in `docs/wiki/index.md`
+- [ ] `docs/wiki/log.md` appended with `## [YYYY-MM-DD] <op> | <title>` entry
+- [ ] New source material (if any) added under `docs/raw/` as `YYYY-MM-DD-slug.md`, unmodified thereafter
 - [ ] No wiki change needed (pure refactor with no behavior/decision impact)
 
 ## Verification

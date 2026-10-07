@@ -11,7 +11,7 @@ lives in `research/`; living state lives in `progress.md`.
 | Workspace with `app-core` (pure) + `app-cli` (I/O) | adopted | Failures localize; core testable without fs/network |
 | Strict `[workspace.lints]`, opt-in per crate | adopted | Compiler as verification; see root `Cargo.toml` |
 | Suppressions via `#[expect(..., reason)]` only | adopted | Stale suppressions become compile errors |
-| llm-wiki (`raw/` + `wiki/`) instead of `docs/` | adopted | Knowledge compounds; see `AGENTS.md` |
+| llm-wiki (`docs/raw/` + `docs/wiki/`) under `docs/` | adopted | One root entry per system; `docs/raw/` immutable sources, `docs/wiki/` generated knowledge (supersedes root-level `raw/` + `wiki/` layout) |
 
 ## Open questions
 

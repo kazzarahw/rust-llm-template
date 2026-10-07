@@ -4,7 +4,7 @@ Append-only chronological record of wiki events. Never rewrite history.
 Format: `## [YYYY-MM-DD] <op> | <title>`, where `<op>` is `ingest`, `query`,
 `lint`, `decision`, or `progress`.
 
-Tip: `grep "^## \[" wiki/log.md | tail -5` shows the last 5 events.
+Tip: `grep "^## \[" docs/wiki/log.md | tail -5` shows the last 5 events.
 
 ## [2026-10-06] progress | Template scaffolded
 
@@ -44,3 +44,12 @@ Tip: `grep "^## \[" wiki/log.md | tail -5` shows the last 5 events.
   line (read from `rust-version`).
 - Unified setup markers to `TODO(template)`; trimmed `.gitignore` JetBrains
   noise; added `raw/assets/.gitkeep`.
+
+## [2026-10-07] progress | Knowledge system consolidated under docs/
+
+- Moved `raw/` → `docs/raw/`, `wiki/` → `docs/wiki/` (one root entry per
+  system; `../raw/` relative links survive unchanged). Historical log entries
+  above keep their original paths.
+- Updated references in `AGENTS.md`, `README.md`, `.github/CODEOWNERS`,
+  `.github/PULL_REQUEST_TEMPLATE.md`, `docs/` READMEs; superseded the
+  root-level layout row in `docs/wiki/architecture.md`.

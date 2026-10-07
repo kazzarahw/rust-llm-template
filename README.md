@@ -1,9 +1,11 @@
 # rust-llm-template
 
+<!-- TODO(template): replace the title, description, status, and setup checklist
+  below for your project. `grep -r "TODO(template)"` lists all setup tasks. -->
+
 A GitHub template repo for strictly verified Rust programs written with an LLM.
 Hardened workspace (strict lints, toolchain, CI, hooks) with project knowledge
-in a Karpathy-style llm-wiki (`raw/` + `wiki/`) instead of a loose `docs/`
-directory.
+in a Karpathy-style llm-wiki under `docs/` (`docs/raw/` + `docs/wiki/`).
 
 Click **Use this template** to create a new repo. Then work through the
 setup checklist below.
@@ -16,9 +18,9 @@ Fresh template. Scaffold builds; no application logic yet.
 
 - `crates/app-core` — pure logic; no I/O
 - `crates/app-cli` — the `app` binary; all I/O lives here
-- `raw/` — immutable source material for the wiki
-- `wiki/` — LLM-maintained knowledge base (`index.md`, `log.md`, `overview.md`,
-  `architecture.md`, `progress.md`, `research/`, `queries/`)
+- `docs/raw/` — immutable source material for the wiki
+- `docs/wiki/` — LLM-maintained knowledge base (`index.md`, `log.md`,
+  `overview.md`, `architecture.md`, `progress.md`, `research/`, `queries/`)
 - `AGENTS.md` — project conventions + wiki schema (source of truth)
 - Toolchain configs (all dotfiles at root, except where the tool fixes the
   path): `.cargo/config.toml` (aliases) + `.cargo/deny.toml` (dependency
@@ -38,8 +40,9 @@ Fresh template. Scaffold builds; no application logic yet.
   Dependabot, install hooks (`lefthook install`).
 - [ ] Install tooling: `cargo-nextest`, `cargo-deny`, `cargo-mutants`, `typos`,
   `lefthook`.
-- [ ] Rewrite `wiki/overview.md`, `wiki/progress.md`, `wiki/index.md`,
-  `wiki/log.md` for your project. Ingest your first source into `raw/`.
+- [ ] Rewrite `docs/wiki/overview.md`, `docs/wiki/progress.md`,
+  `docs/wiki/index.md`, `docs/wiki/log.md` for your project. Ingest your first
+  source into `docs/raw/`.
 
 Apply the repo ruleset (maintainer only):
 
@@ -71,8 +74,8 @@ enforces.
 
 ```sh
 # Ingest: drop a source, then ask the agent to ingest it.
-# The agent updates wiki pages, wiki/index.md, and appends to wiki/log.md.
-cp article.md raw/2026-10-06-article-slug.md
+# The agent updates docs/wiki pages, docs/wiki/index.md, and appends to docs/wiki/log.md.
+cp article.md docs/raw/2026-10-06-article-slug.md
 ```
 
 Log format: `## [YYYY-MM-DD] <op> | <title>` where `<op>` is
