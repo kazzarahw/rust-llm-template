@@ -22,15 +22,16 @@ A minimal, strictly verified Rust workspace designed for LLM-written programs:
 crates/
   app-core/    pure logic: types, traits, algorithms. No I/O.
   app-cli/     the `app` binary. All I/O (fs, network, time, env) lives here.
-raw/           immutable source material (articles, papers, transcripts).
-wiki/          LLM-maintained knowledge base (see "llm-wiki" below).
-  index.md       content catalog: every page with a link + one-line summary.
-  log.md         append-only chronological record of ingests, queries, lints.
-  overview.md    what the project is, goals, non-goals.
-  architecture.md  settled design decisions and rationale.
-  progress.md    living state: done, next, open decisions, needed research.
-  research/    compiled synthesis pages, one per topic (not raw dumps).
-  queries/     valuable answers filed back as pages (not chat history).
+docs/
+  raw/           immutable source material (articles, papers, transcripts).
+  wiki/          LLM-maintained knowledge base (see "llm-wiki" below).
+    index.md       content catalog: every page with a link + one-line summary.
+    log.md         append-only chronological record of ingests, queries, lints.
+    overview.md    what the project is, goals, non-goals.
+    architecture.md  settled design decisions and rationale.
+    progress.md    living state: done, next, open decisions, needed research.
+    research/    compiled synthesis pages, one per topic (not raw dumps).
+    queries/     valuable answers filed back as pages (not chat history).
 AGENTS.md      this file: project conventions + wiki schema.
 ```
 
@@ -72,11 +73,11 @@ wiki; the human curates sources, steers, and asks good questions.
 
 There are three layers:
 
-- **Raw sources (`raw/`)** — curated, immutable source of truth. Articles,
-  papers, transcripts, specs. The LLM reads from `raw/` but never modifies it.
-  One file per source: `raw/YYYY-MM-DD-slug.md`. Preserve provenance (URL, date,
+- **Raw sources (`docs/raw/`)** — curated, immutable source of truth. Articles,
+  papers, transcripts, specs. The LLM reads from `docs/raw/` but never modifies it.
+  One file per source: `docs/raw/YYYY-MM-DD-slug.md`. Preserve provenance (URL, date,
   author) at the top.
-- **The wiki (`wiki/`)** — LLM-generated markdown. Summaries, entity/concept
+- **The wiki (`docs/wiki/`)** — LLM-generated markdown. Summaries, entity/concept
   pages, comparisons, synthesis. The LLM owns this layer: it creates pages,
   updates them when new sources arrive, maintains cross-references, and keeps
   everything consistent. Humans read it and steer it; they rarely edit it
@@ -86,26 +87,26 @@ There are three layers:
 
 ### Operations
 
-**Ingest.** When a new source lands in `raw/`:
+**Ingest.** When a new source lands in `docs/raw/`:
 
 1. Read the source. Discuss key takeaways with the user; note emphasis.
 2. Write or update wiki pages: a summary plus updates to every affected
    entity/concept page. One source may touch many pages. Update
    `architecture.md` if a decision settled, `progress.md` if state moved.
-3. Update `wiki/index.md` (catalog every touched page).
-4. Append one entry to `wiki/log.md` (see format below).
-5. Never edit `raw/` during ingest. Never leave `index.md`/`log.md` stale.
+3. Update `docs/wiki/index.md` (catalog every touched page).
+4. Append one entry to `docs/wiki/log.md` (see format below).
+5. Never edit `docs/raw/` during ingest. Never leave `index.md`/`log.md` stale.
 
 Ingest one source at a time with the user involved by default; batch only when
-asked. Research synthesis goes in `wiki/research/<topic>.md` — compiled,
+asked. Research synthesis goes in `docs/wiki/research/<topic>.md` — compiled,
 cross-referenced, with contradictions flagged — never a raw paste.
 
 **Query.** When the user asks a question:
 
-1. Read `wiki/index.md` first, then drill into relevant pages.
+1. Read `docs/wiki/index.md` first, then drill into relevant pages.
 2. Synthesize an answer with citations (relative links to wiki pages/sources).
 3. File valuable answers back: comparison, analysis, or discovered connection
-   becomes a new page under `wiki/queries/` (or the relevant topic dir),
+   becomes a new page under `docs/wiki/queries/` (or the relevant topic dir),
    indexed in `index.md` and logged in `log.md`. Explorations compound; they do
    not disappear into chat history.
 
@@ -120,15 +121,15 @@ Report findings; fix with user guidance; log the pass.
 
 ### Indexing and logging
 
-- **`wiki/index.md`** is content-oriented: every page listed with a relative
+- **`docs/wiki/index.md`** is content-oriented: every page listed with a relative
   link, a one-line summary, and optional metadata. Organized by section
   (overview, architecture, progress, research, queries). Updated on every ingest,
   query-filed-back, and lint fix.
-- **`wiki/log.md`** is chronological and append-only. Never rewrite history.
+- **`docs/wiki/log.md`** is chronological and append-only. Never rewrite history.
   One heading per event, parseable prefix:
   `## [YYYY-MM-DD] <op> | <title>`, where `<op>` is
   `ingest`, `query`, `lint`, `decision`, or `progress`.
-  `grep "^## \[" wiki/log.md | tail -5` shows the last 5 events.
+  `grep "^## \[" docs/wiki/log.md | tail -5` shows the last 5 events.
 
 ### Wiki conventions
 
@@ -203,8 +204,8 @@ Report findings; fix with user guidance; log the pass.
   progress is never swept into a commit.
 - Never rewrite published history. No force pushes, no `git reset --hard` on
   shared branches.
-- Update `wiki/progress.md`, `wiki/index.md`, and `wiki/log.md` in the same
-  commit as any change that advances the project state. Never edit `raw/`
+- Update `docs/wiki/progress.md`, `docs/wiki/index.md`, and `docs/wiki/log.md` in the same
+  commit as any change that advances the project state. Never edit `docs/raw/`
   after ingest.
 
 ## Workflow

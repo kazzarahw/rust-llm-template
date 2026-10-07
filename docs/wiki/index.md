@@ -15,12 +15,12 @@ query-filed-back, and lint fix. Read this file first when answering questions.
 
 ## Research (compiled synthesis, not raw dumps)
 
-<!-- One bullet per wiki/research/<topic>.md page. -->
+<!-- One bullet per docs/wiki/research/<topic>.md page. -->
 - _No research pages yet. Ingest a source to create the first one._
 
 ## Queries (filed-back answers)
 
-<!-- One bullet per wiki/queries/<slug>.md page. -->
+<!-- One bullet per docs/wiki/queries/<slug>.md page. -->
 - _No filed-back answers yet._
 
 ## Raw sources

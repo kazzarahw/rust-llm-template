@@ -11,7 +11,7 @@ Template scaffolded and (to verify) hardened. No application logic yet.
 - Two crates: `app-core` (pure logic) and `app-cli` (all I/O).
 - Strict lint table, `#[expect]`-only suppressions, `.clippy.toml` test relaxations.
 - Aliases: `fmt-check`, `lint`, `t`, `doc-check`; gates: `deny`, `mutants`, `typos`.
-- llm-wiki skeleton: `raw/`, `wiki/index.md`, `wiki/log.md`, this file.
+- llm-wiki skeleton: `docs/raw/`, `docs/wiki/index.md`, `docs/wiki/log.md`, this file.
 
 ## Done
 
@@ -21,12 +21,13 @@ Template scaffolded and (to verify) hardened. No application logic yet.
   CI run before any job started. Checks now explicit per job.
 - [x] Template housekeeping: removed predecessor references, hid toolchain
   configs as dotfiles, embedded typos config, unified `TODO(template)` tags.
+- [x] Consolidated knowledge system under `docs/` (`docs/raw/` + `docs/wiki/`).
 
 ## Next
 
 1. Rename crates and set OWNER/REPO (see `README.md` checklist).
 2. Rewrite `overview.md` for the real project.
-3. Ingest the first real source into `raw/`.
+3. Ingest the first real source into `docs/raw/`.
 4. Define core types/traits as stubs (`#[expect(clippy::todo)]`), `cargo check`.
 
 ## Open decisions

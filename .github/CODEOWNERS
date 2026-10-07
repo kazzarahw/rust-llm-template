@@ -6,6 +6,12 @@
 # Source-level `#[allow]` is already blocked by `clippy::allow_attributes`, so no
 # grep-based suppression check is needed here.
 
+#
+# To enforce review, uncomment the owner line below and set your username/team.
+# While every line stays commented, this file documents intent but requires
+# nothing. Derived repos: uncomment and set your owner as part of setup
+# (see README.md checklist).
+#
 # @kazzarahw
 /Cargo.toml
 /.clippy.toml
@@ -16,5 +22,4 @@
 /.cargo/
 /.github/
 /AGENTS.md
-/raw/
-/wiki/
+/docs/
