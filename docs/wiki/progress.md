@@ -26,6 +26,8 @@ Template scaffolded and (to verify) hardened. No application logic yet.
   `commit-msg` hook, `CHANGELOG.md` with release-time versioning.
 - [x] Template setup self-check: CI `template-check` fails derived repos
   with leftover placeholders (bypassed by name on the template itself).
+- [x] Paradigm guidance refresh: countable simplicity rules, corrected
+  toolchain/MSRV/pedantic wording, CI `msrv` floor verification.
 
 ## Next
 

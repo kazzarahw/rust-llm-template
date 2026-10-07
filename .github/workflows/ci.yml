@@ -186,9 +186,21 @@ jobs:
           # ongoing updates.
           exit $fail
 
+  # MSRV floor: the workspace declares rust-version 1.93 while the default
+  # toolchain floats on stable. This job pins the floor exactly.
+  msrv:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a # v6.0.0
+      - uses: Swatinem/rust-cache@f0d9c3887740aee45f6153b24b3a6b815192ec16 # master
+      - name: Install MSRV toolchain
+        run: rustup toolchain install 1.93 --profile minimal
+      - name: Verify the MSRV floor
+        run: cargo +1.93 check --workspace --all-targets --locked
+
   ci-success:
     if: always()
-    needs: [fmt, clippy, test, docs, deny, typos, docs-gate, commits, template-check]
+    needs: [fmt, clippy, test, docs, deny, typos, docs-gate, commits, template-check, msrv]
     runs-on: ubuntu-latest
     steps:
       - name: Verify all checks passed
@@ -207,4 +219,5 @@ jobs:
           test "${{ needs.docs-gate.result }}" = "success" || { echo "::error::docs-gate did not succeed (result: ${{ needs.docs-gate.result }})"; fail=1; }
           test "${{ needs.commits.result }}" = "success" || { echo "::error::commits did not succeed (result: ${{ needs.commits.result }})"; fail=1; }
           test "${{ needs.template-check.result }}" = "success" || { echo "::error::template-check did not succeed (result: ${{ needs.template-check.result }})"; fail=1; }
+          test "${{ needs.msrv.result }}" = "success" || { echo "::error::msrv did not succeed (result: ${{ needs.msrv.result }})"; fail=1; }
           exit $fail

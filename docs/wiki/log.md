@@ -72,3 +72,12 @@ Tip: `grep "^## \[" docs/wiki/log.md | tail -5` shows the last 5 events.
   crate dirs). Bypassed by repository name on the template itself, so the
   template and contributor forks pass; wired into `ci-success`.
 - `docs/wiki/index.md` untouched: no pages added or removed.
+
+## [2026-10-07] progress | Paradigm guidance refresh
+
+- Named KISS/YAGNI/DRY with countable rules (rule of three, smallest diff,
+  delete dead code); clarified no-new-macros and xtask scope; corrected
+  pedantic warn-vs-deny wording.
+- Documented floating-stable + CI-verified-MSRV setup; added CI `msrv` job
+  (`cargo +1.93 check`, verified locally with a real 1.93 toolchain).
+- `docs/wiki/index.md` untouched: no pages added or removed.

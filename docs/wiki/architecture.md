@@ -17,6 +17,7 @@ lives in `research/`; living state lives in `progress.md`.
 | `CHANGELOG.md`, version bumped at release time | adopted | Per-PR bumps are noise; docs-gate covers changelog updates on behavior changes |
 | CI `template-check`: leftover placeholders fail | adopted | Setup drift is silent (a derived repo shipped with the template README); name-bypassed on the template itself so forks and template PRs pass |
 | Simplicity rules: YAGNI/KISS, rule of three, smallest diff | adopted | Abstractions are misunderstanding surface for LLM-written code; countable rules beat adjectives |
+| Floating stable toolchain + CI-verified MSRV floor | adopted | Stable drift caught a real lint; pinning would hide that signal. MSRV declared in `Cargo.toml`, verified by CI `msrv` job |
 
 ## Open questions
 
