@@ -195,8 +195,9 @@ Report findings; fix with user guidance; log the pass.
 ## Git
 
 - Commit messages follow Conventional Commits 1.0.0: `<type>[optional scope]:
-  <description>`. Common types: `feat`, `fix`, `docs`, `chore`, `refactor`,
-  `test`.
+  <description>`. Enforced types (lefthook `commit-msg` hook + CI `commits`
+  job): `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`,
+  `ci`, `chore`, `revert`.
 - Write descriptions in the imperative mood ("add tool dispatch", not "added").
 - Do **not** add `Co-Authored-By` or other attribution trailers.
 - **Never push.** The user pushes. Do not run `git push` under any circumstances.

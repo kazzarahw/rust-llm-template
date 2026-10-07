@@ -16,3 +16,9 @@ pre-push:
       run: cargo lint
     test:
       run: cargo t
+
+commit-msg:
+  commands:
+    conventional:
+      # {1} is the commit-message file git hands to the hook.
+      run: "grep -qE '^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\\(.+\\))?!?: .+' {1}"
