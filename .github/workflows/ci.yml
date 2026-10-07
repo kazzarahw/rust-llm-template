@@ -135,9 +135,60 @@ jobs:
           rm -f "$tmpfile"
           exit $fail
 
+  # Fails derived repos that still carry template placeholders (wrong owner,
+  # crate names, TODOs, placeholder source). The template repo itself
+  # legitimately contains these markers and is bypassed by repository name.
+  # Maintenance: when adding a setup placeholder, add its file/pattern below.
+  template-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a # v6.0.0
+      - name: Fail on leftover template placeholders
+        env:
+          REPO: ${{ github.repository }}
+        run: |
+          # Contributor forks keep the template name, so their PRs bypass too.
+          # Update EXPECTED if the template is ever renamed.
+          EXPECTED="rust-llm-template"
+          if [ "${REPO#*/}" = "$EXPECTED" ]; then
+            echo "Template repo itself; passing."
+            exit 0
+          fi
+          fail=0
+          check() {
+            if grep -qE "$2" "$1"; then
+              echo "::error file=$1::Leftover template placeholder: $3"
+              fail=1
+            fi
+          }
+          check Cargo.toml 'TODO\(template\)|kazzarahw' "set the repository URL (README setup checklist)"
+          check .github/CODEOWNERS 'TODO\(template\)|@kazzarahw' "set the code owner (README setup checklist)"
+          check README.md 'TODO\(template\)|rust-llm-template|kazzarahw|app-core|app-cli' "rewrite the README for your project"
+          check .cargo/deny.toml 'TODO\(template\)|app-core|app-cli' "rename the template crates"
+          check AGENTS.md 'TODO\(template\)' "finish the crate-rename instruction"
+          check LICENSE 'Kazzarah' "set the copyright holder"
+          check docs/wiki/overview.md 'TODO\(template\)' "rewrite the overview for your project"
+          if grep -rqE 'app-core|app-cli|name = "app"' crates/; then
+            echo "::error file=crates/::Leftover template placeholder: rename the template crates"
+            fail=1
+          fi
+          if [ -d crates/app-core ] || [ -d crates/app-cli ]; then
+            echo "::error file=crates/::Leftover template placeholder: crate directories not renamed"
+            fail=1
+          fi
+          if [ -f docs/raw/2026-04-04-llm-wiki-idea.md ]; then
+            echo "::error file=docs/raw/::Leftover template placeholder: ingest your first real source"
+            fail=1
+          fi
+          # NOTE: Cargo.lock is excluded; it refreshes on the first build.
+          # NOTE: docs/wiki/ history (log, architecture) may mention old
+          # names; living docs are the owner's call and docs-gate covers
+          # ongoing updates.
+          exit $fail
+
   ci-success:
     if: always()
-    needs: [fmt, clippy, test, docs, deny, typos, docs-gate, commits]
+    needs: [fmt, clippy, test, docs, deny, typos, docs-gate, commits, template-check]
     runs-on: ubuntu-latest
     steps:
       - name: Verify all checks passed
@@ -155,4 +206,5 @@ jobs:
           test "${{ needs.typos.result }}" = "success" || { echo "::error::typos did not succeed (result: ${{ needs.typos.result }})"; fail=1; }
           test "${{ needs.docs-gate.result }}" = "success" || { echo "::error::docs-gate did not succeed (result: ${{ needs.docs-gate.result }})"; fail=1; }
           test "${{ needs.commits.result }}" = "success" || { echo "::error::commits did not succeed (result: ${{ needs.commits.result }})"; fail=1; }
+          test "${{ needs.template-check.result }}" = "success" || { echo "::error::template-check did not succeed (result: ${{ needs.template-check.result }})"; fail=1; }
           exit $fail

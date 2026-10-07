@@ -64,3 +64,11 @@ Tip: `grep "^## \[" docs/wiki/log.md | tail -5` shows the last 5 events.
 - Added `CHANGELOG.md` (release-time versioning) and a README release
   checklist; documented red-CI and small-commit principles in `AGENTS.md`.
 - `docs/wiki/index.md` untouched: no pages added or removed.
+
+## [2026-10-07] progress | Template setup self-check
+
+- CI `template-check`: fails derived repos carrying placeholders (owner,
+  crate names, `TODO(template)`, copyright, placeholder source, unrenamed
+  crate dirs). Bypassed by repository name on the template itself, so the
+  template and contributor forks pass; wired into `ci-success`.
+- `docs/wiki/index.md` untouched: no pages added or removed.

@@ -24,6 +24,8 @@ Template scaffolded and (to verify) hardened. No application logic yet.
 - [x] Consolidated knowledge system under `docs/` (`docs/raw/` + `docs/wiki/`).
 - [x] Enforcement pass: CI `docs-gate` + `commits` jobs, lefthook
   `commit-msg` hook, `CHANGELOG.md` with release-time versioning.
+- [x] Template setup self-check: CI `template-check` fails derived repos
+  with leftover placeholders (bypassed by name on the template itself).
 
 ## Next
 
