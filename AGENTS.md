@@ -211,6 +211,8 @@ Report findings; fix with user guidance; log the pass.
 - Update `docs/wiki/progress.md`, `docs/wiki/index.md`, and `docs/wiki/log.md` in the same
   commit as any change that advances the project state. Never edit `docs/raw/`
   after ingest.
+- When adding a setup placeholder (`TODO(template)`, owner/repo name, crate
+  name), add its file/pattern to the CI `template-check` job in the same commit.
 
 ## Workflow
 
