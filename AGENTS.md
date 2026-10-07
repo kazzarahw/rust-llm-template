@@ -148,8 +148,10 @@ Report findings; fix with user guidance; log the pass.
 
 ### Rust
 
-- MSRV is 1.93; edition 2024. Both are pinned in `Cargo.toml` and
-  `rust-toolchain.toml`.
+- MSRV is 1.93 and edition is 2024, declared in root `Cargo.toml`
+  (`rust-version`, `edition`); clippy infers MSRV from `rust-version`.
+  `rust-toolchain.toml` floats on `stable`, so daily work uses the latest
+  toolchain while the CI `msrv` job verifies the MSRV floor.
 - Lints live in `[workspace.lints]` in the root `Cargo.toml`; every crate opts in
   with `[lints] workspace = true`. Do not redefine lints per crate.
 - `unsafe_code` is forbidden, as are `unwrap`, `expect`, `panic`, `todo`,
