@@ -36,8 +36,9 @@ AGENTS.md      this file: project conventions + wiki schema.
 ```
 
 Pure logic belongs in library crates so failures localize and the core is
-testable without a filesystem or network. If custom tooling logic is ever needed,
-add a small `xtask` crate rather than a shell script.
+testable without a filesystem or network. If custom repo tooling logic is ever
+needed, add a small `xtask` crate rather than a shell script (short inline
+steps in CI workflows are fine).
 
 TODO(template): rename `app-core` / `app-cli` / `app` to your project names.
 When you do, update `.cargo/deny.toml` `skip-tree`, `README.md`, and this file.
@@ -163,13 +164,23 @@ Report findings; fix with user guidance; log the pass.
   does not suppress it. Implementing the body makes the expectation unfulfilled
   and the build fails until the attribute is removed, so stubs cannot silently
   become real code.
-- Pedantic lints are warnings. If one is noisy, report it rather than silencing
-  it.
+- Pedantic lints are warn-by-default, but the `lint` alias passes `-D warnings`,
+  so treat them as errors in practice. If one is noisy, report it rather than
+  silencing it.
 - Public items get doc comments stating contracts, not restatements of the
   signature.
 
 ### Style: simple functional Rust
 
+Simplicity is load-bearing for LLM-written code: every abstraction is a
+surface for misunderstanding. Prefer the boring solution.
+
+- KISS over cleverness, YAGNI over speculation. Do not add options,
+  abstractions, or extension points nobody asked for.
+- DRY via the rule of three: tolerate duplication up to two uses; abstract
+  on the third, not the first. A wrong abstraction costs more than duplication.
+- Smallest diff that satisfies the requirement. Delete dead code instead of
+  commenting it out.
 - Pure functions: owned or borrowed in, owned out, no hidden state, no globals,
   no interior mutability without a justifying comment. Pass clock, RNG, and I/O
   handles as parameters; side effects live in `app-cli`.
@@ -177,8 +188,9 @@ Report findings; fix with user guidance; log the pass.
   bool or string flags, typestate for lifecycle stages.
 - Errors are `Result` with `thiserror` enums in libraries. Propagate with `?`.
 - Stay in the simple subset by default: explicit lifetimes, no `unsafe`, no
-  macros. Use `async` where the task genuinely requires it (streaming provider
-  responses and subprocess execution both do) rather than as a default reflex.
+  new macros (derive macros from dependencies are fine). Use `async` where the
+  task genuinely requires it (streaming provider responses and subprocess execution
+  both do) rather than as a default reflex.
 - Clone freely rather than fight the borrow checker.
 
 ### Testing
